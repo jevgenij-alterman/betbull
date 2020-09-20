@@ -20,7 +20,6 @@ public class PlayerService {
     @Autowired
     private PlayerRepository playerRepository;
 
-
     public ResponseEntity<List<PlayerDTO>> getAllPlayersResponse() {
         List<Player> allPlayers = playerRepository.findAll();
         return new ResponseEntity<>(DtoMapper.toPlayerDTOList(allPlayers), HttpStatus.OK);
@@ -39,10 +38,21 @@ public class PlayerService {
 
     public ResponseEntity<PlayerDTO> putUpdatePlayer(Long id, PlayerDTO player) throws PlayerNotFoundException {
         Player playerToUpdate = findPlayerIfExists(id);
-        playerToUpdate.setMonthOfExperience(player.getMonthOfExperience());
-        playerToUpdate.setName(player.getName());
+        setUpdateValues(playerToUpdate, player);
         Player updatedPlayer = playerRepository.save(playerToUpdate);
         return new ResponseEntity<>(DtoMapper.toPlayerDTO(updatedPlayer), HttpStatus.OK);
+    }
+
+    private void setUpdateValues(Player playerToUpdate, PlayerDTO player) {
+        if (player.getMonthOfExperience() != 0) {
+            playerToUpdate.setMonthOfExperience(player.getMonthOfExperience());
+        }
+        if (player.getName() != null && !player.getName().isEmpty()) {
+            playerToUpdate.setName(player.getName());
+        }
+        if (player.getMonthOfExperience() != 0) {
+            playerToUpdate.setAge(player.getAge());
+        }
     }
 
     public ResponseEntity<PlayerDTO> deletePlayer(Long id) throws PlayerNotFoundException {
@@ -51,7 +61,7 @@ public class PlayerService {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    private Player findPlayerIfExists(Long id) throws PlayerNotFoundException {
+    protected Player findPlayerIfExists(Long id) throws PlayerNotFoundException {
         Optional<Player> player = playerRepository.findById(id);
         if (player.isPresent())
             return player.get();

@@ -17,5 +17,6 @@ public class Player {
     @GeneratedValue
     private Long id;
     private String name;
+    private int age;
     private int monthOfExperience;
 }

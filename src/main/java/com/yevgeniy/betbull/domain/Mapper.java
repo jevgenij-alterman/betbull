@@ -9,11 +9,11 @@ public class Mapper {
     }
 
     public static Player toPlayer(PlayerDTO playerDTO, Long id) {
-        return new Player(id, playerDTO.getName(), playerDTO.getMonthOfExperience());
+        return new Player(id, playerDTO.getName(), playerDTO.getAge(), playerDTO.getMonthOfExperience());
     }
 
     public static Team toTeam(TeamDTO teamDTO, Long id) {
-        return new Team(id, teamDTO.getTeamName());
+        return new Team(id, teamDTO.getTeamName(), teamDTO.getCurrency());
     }
 
 }

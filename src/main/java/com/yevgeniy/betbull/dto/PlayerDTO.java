@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 public class PlayerDTO {
     private Long id;
     private String name;
+    private int age;
     private int monthOfExperience;
 }

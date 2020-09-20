@@ -17,4 +17,5 @@ public class Team {
     @GeneratedValue
     private Long id;
     private String teamName;
+    private Currency currency;
 }

@@ -35,7 +35,9 @@ public class TeamService {
 
     public ResponseEntity<TeamDTO> putUpdateTeam(Long id, TeamDTO team) throws TeamNotFoundException {
         Team teamToUpdate = findTeamIfExists(id);
-        teamToUpdate.setTeamName(team.getTeamName());
+        if(team.getTeamName()!=null && !team.getTeamName().isEmpty()) {
+            teamToUpdate.setTeamName(team.getTeamName());
+        }
         Team updatedTeam = teamRepository.save(teamToUpdate);
         return new ResponseEntity<>(DtoMapper.toTeamDTO(updatedTeam), HttpStatus.OK);
     }
@@ -46,7 +48,7 @@ public class TeamService {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    private Team findTeamIfExists(Long id) throws TeamNotFoundException {
+    public Team findTeamIfExists(Long id) throws TeamNotFoundException {
         Optional<Team> team = teamRepository.findById(id);
         if (team.isPresent())
             return team.get();
