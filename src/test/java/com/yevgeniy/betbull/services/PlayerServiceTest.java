@@ -20,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class PlayerServiceTest {
 
-
     private PlayerRepository mockPlayerRepository() {
         return Mockito.mock(PlayerRepository.class);
     }

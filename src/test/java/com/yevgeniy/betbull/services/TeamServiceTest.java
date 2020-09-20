@@ -27,7 +27,7 @@ class TeamServiceTest {
 
     @Test
     void getAllTeams() {
-        Team team = new Team(1L, "Lakers", Currency.GDP);
+        Team team = new Team(1L, "Lakers", Currency.GBP);
         TeamRepository teamRepository = mockTeamRepository();
         Mockito.when(teamRepository.findAll()).thenReturn(ImmutableList.of(team));
         TeamService teamService = new TeamService(teamRepository);
@@ -39,7 +39,7 @@ class TeamServiceTest {
 
     @Test
     void getSingleTeamResponse() throws TeamNotFoundException {
-        Team team = new Team(1L, "Lakers", Currency.GDP);
+        Team team = new Team(1L, "Lakers", Currency.GBP);
         TeamRepository teamRepository = mockTeamRepository();
         Mockito.when(teamRepository.findById(1L)).thenReturn(Optional.of(team));
         TeamService teamService = new TeamService(teamRepository);
@@ -50,7 +50,7 @@ class TeamServiceTest {
 
     @Test
     void createNewTeam() {
-        Team team = new Team(null, "Lakers", Currency.GDP);
+        Team team = new Team(null, "Lakers", Currency.GBP);
         TeamRepository teamRepository = mockTeamRepository();
         Mockito.when(teamRepository.save(team)).thenReturn(team);
         TeamService teamService = new TeamService(teamRepository);
@@ -62,8 +62,8 @@ class TeamServiceTest {
 
     @Test
     void putUpdateTeam() throws TeamNotFoundException {
-        Team newTeam = new Team(1L, "Stars", Currency.GDP);
-        Team oldTeam = new Team(1L, "Lakers", Currency.GDP);
+        Team newTeam = new Team(1L, "Stars", Currency.GBP);
+        Team oldTeam = new Team(1L, "Lakers", Currency.GBP);
         TeamRepository teamRepository = mockTeamRepository();
         Mockito.when(teamRepository.save(newTeam)).thenReturn(newTeam);
         Mockito.when(teamRepository.findById(1L)).thenReturn(Optional.of(oldTeam));
@@ -75,7 +75,7 @@ class TeamServiceTest {
 
     @Test
     void deleteTeam() throws TeamNotFoundException {
-        Team team = new Team(1L, "Lakers", Currency.GDP);
+        Team team = new Team(1L, "Lakers", Currency.GBP);
         TeamRepository teamRepository = mockTeamRepository();
         Mockito.when(teamRepository.findById(1L)).thenReturn(Optional.of(team));
         TeamService teamService = new TeamService(teamRepository);
@@ -85,7 +85,7 @@ class TeamServiceTest {
 
     @Test
     void findTeamIfExists() throws TeamNotFoundException {
-        Team team = new Team(1L, "Lakers", Currency.GDP);
+        Team team = new Team(1L, "Lakers", Currency.GBP);
         TeamRepository teamRepository = mockTeamRepository();
         Mockito.when(teamRepository.findById(1L)).thenReturn(Optional.of(team));
         TeamService teamService = new TeamService(teamRepository);

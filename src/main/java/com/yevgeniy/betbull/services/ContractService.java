@@ -60,8 +60,8 @@ public class ContractService {
         contract.setContractPrice(calculatePlayerPrice(player));
         contract.setSigningDate(LocalDate.now());
         contract.setTeam(newTeam);
-        contractRepository.save(contract);
-        return new ResponseEntity<>(DtoMapper.toContractDTO(contract), HttpStatus.OK);
+        Contract newContract = contractRepository.save(contract);
+        return new ResponseEntity<>(DtoMapper.toContractDTO(newContract), HttpStatus.OK);
     }
 
     private BigDecimal calculatePlayerPrice(Player player) {
