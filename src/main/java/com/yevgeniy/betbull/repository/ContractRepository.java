@@ -11,4 +11,5 @@ import java.util.List;
 @Repository
 public interface ContractRepository extends CrudRepository<Contract, Long> {
     List<Contract> findAllByPlayer(Player player);
+    Contract findFirstByPlayerOrderBySigningDate(Player player);
 }

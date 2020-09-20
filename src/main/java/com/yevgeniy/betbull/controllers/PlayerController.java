@@ -1,15 +1,14 @@
 package com.yevgeniy.betbull.controllers;
 
 import com.yevgeniy.betbull.dto.PlayerDTO;
+import com.yevgeniy.betbull.dto.TeamHistory;
 import com.yevgeniy.betbull.exceptions.PlayerNotFoundException;
 import com.yevgeniy.betbull.services.ContractService;
 import com.yevgeniy.betbull.services.PlayerService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("api/v1/")
@@ -49,7 +48,7 @@ public class PlayerController {
     }
 
     @GetMapping(value = "playerTeamsHistory/{playerId}")
-    public ResponseEntity<Map<String, LocalDate>> getPlayerTeamsHistory(@PathVariable Long playerId) throws PlayerNotFoundException {
+    public ResponseEntity<List<TeamHistory>> getPlayerTeamsHistory(@PathVariable Long playerId) throws PlayerNotFoundException {
         return contractService.getPlayerTeams(playerId);
     }
 }

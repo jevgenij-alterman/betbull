@@ -1,10 +1,13 @@
 package com.yevgeniy.betbull.services;
 
 import com.yevgeniy.betbull.domain.Contract;
+import com.yevgeniy.betbull.domain.Currency;
 import com.yevgeniy.betbull.domain.Player;
 import com.yevgeniy.betbull.domain.Team;
 import com.yevgeniy.betbull.dto.ContractDTO;
+import com.yevgeniy.betbull.dto.ContractFeeDTO;
 import com.yevgeniy.betbull.dto.DtoMapper;
+import com.yevgeniy.betbull.dto.TeamHistory;
 import com.yevgeniy.betbull.exceptions.PlayerNotFoundException;
 import com.yevgeniy.betbull.exceptions.TeamNotFoundException;
 import com.yevgeniy.betbull.repository.ContractRepository;
@@ -15,7 +18,6 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,10 +37,12 @@ public class ContractService {
         this.teamService = teamService;
     }
 
-    public ResponseEntity<Map<String, LocalDate>> getPlayerTeams(Long playerId) throws PlayerNotFoundException {
+    public ResponseEntity<List<TeamHistory>> getPlayerTeams(Long playerId) throws PlayerNotFoundException {
         Player player = playerService.findPlayerIfExists(playerId);
         List<Contract> playerContracts = contractRepository.findAllByPlayer(player);
-        Map<String, LocalDate> teamList = playerContracts.stream().collect(Collectors.toMap(contract -> contract.getTeam().getTeamName(), Contract::getSigningDate));
+
+        List<TeamHistory> teamList = playerContracts.stream().map(contract -> new TeamHistory(contract.getTeam().getTeamName(),
+                contract.getSigningDate())).collect(Collectors.toList());
         return new ResponseEntity<>(teamList, HttpStatus.OK);
     }
 
@@ -62,5 +66,13 @@ public class ContractService {
 
     private BigDecimal calculatePlayerPrice(Player player) {
         return TEAM_COMMISSION.multiply(BigDecimal.valueOf(player.getMonthOfExperience() * CONTRACT_COEFFICIENT / player.getAge()));
+    }
+
+    public ResponseEntity<ContractFeeDTO> getContractPrice(Long playerId) throws PlayerNotFoundException {
+        Player playerIfExists = playerService.findPlayerIfExists(playerId);
+        BigDecimal price = calculatePlayerPrice(playerIfExists);
+        Currency currency = contractRepository.findFirstByPlayerOrderBySigningDate(playerIfExists).getTeam().getCurrency();
+        ContractFeeDTO contractFeeDTO = new ContractFeeDTO(price, currency);
+        return new ResponseEntity<>(contractFeeDTO, HttpStatus.OK);
     }
 }

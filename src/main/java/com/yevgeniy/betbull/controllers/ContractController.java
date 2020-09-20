@@ -2,6 +2,7 @@ package com.yevgeniy.betbull.controllers;
 
 
 import com.yevgeniy.betbull.dto.ContractDTO;
+import com.yevgeniy.betbull.dto.ContractFeeDTO;
 import com.yevgeniy.betbull.dto.TransferDTO;
 import com.yevgeniy.betbull.exceptions.PlayerNotFoundException;
 import com.yevgeniy.betbull.exceptions.TeamNotFoundException;
@@ -23,6 +24,11 @@ public class ContractController {
     @GetMapping(value = "contract/{playerId}")
     public ResponseEntity<List<ContractDTO>> getPlayerContracts(@PathVariable Long playerId) throws PlayerNotFoundException {
         return contractService.getPlayerContracts(playerId);
+    }
+
+    @GetMapping(value = "contractPrice/{playerId}")
+    public ResponseEntity<ContractFeeDTO> getContractPrice(@PathVariable Long playerId) throws PlayerNotFoundException {
+        return contractService.getContractPrice(playerId);
     }
 
     @PostMapping(value = "transfer")
