@@ -1,6 +1,7 @@
 package com.yevgeniy.betbull.dto;
 
 import com.yevgeniy.betbull.domain.Player;
+import com.yevgeniy.betbull.domain.Team;
 
 import java.util.List;
 import java.util.Objects;
@@ -20,6 +21,19 @@ public class DtoMapper {
         return playerList.stream()
                 .filter(Objects::nonNull)
                 .map(DtoMapper::toPlayerDTO)
+                .collect(Collectors.toList());
+    }
+
+
+    public static TeamDTO toTeamDTO(Team team) {
+        return new TeamDTO(team.getId(), team.getTeamName());
+    }
+
+
+    public static List<TeamDTO> toTeamDTOList(List<Team> teamList) {
+        return teamList.stream()
+                .filter(Objects::nonNull)
+                .map(DtoMapper::toTeamDTO)
                 .collect(Collectors.toList());
     }
 }
