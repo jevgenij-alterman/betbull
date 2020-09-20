@@ -4,7 +4,6 @@ import com.yevgeniy.betbull.dto.PlayerDTO;
 import com.yevgeniy.betbull.exceptions.PlayerNotFoundException;
 import com.yevgeniy.betbull.services.ContractService;
 import com.yevgeniy.betbull.services.PlayerService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,10 +15,13 @@ import java.util.Map;
 @RequestMapping("api/v1/")
 public class PlayerController {
 
-    @Autowired
-    private PlayerService playerService;
-    @Autowired
-    private ContractService contractService;
+    private final PlayerService playerService;
+    private final ContractService contractService;
+
+    public PlayerController(PlayerService playerService, ContractService contractService) {
+        this.playerService = playerService;
+        this.contractService = contractService;
+    }
 
     @GetMapping(value = "player")
     public ResponseEntity<List<PlayerDTO>> getAllPlayers() {

@@ -6,7 +6,6 @@ import com.yevgeniy.betbull.dto.DtoMapper;
 import com.yevgeniy.betbull.dto.PlayerDTO;
 import com.yevgeniy.betbull.exceptions.PlayerNotFoundException;
 import com.yevgeniy.betbull.repository.PlayerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,8 +16,11 @@ import java.util.Optional;
 @Service
 public class PlayerService {
 
-    @Autowired
-    private PlayerRepository playerRepository;
+    private final PlayerRepository playerRepository;
+
+    public PlayerService(PlayerRepository playerRepository) {
+        this.playerRepository = playerRepository;
+    }
 
     public ResponseEntity<List<PlayerDTO>> getAllPlayersResponse() {
         List<Player> allPlayers = playerRepository.findAll();

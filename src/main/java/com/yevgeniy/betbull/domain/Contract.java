@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class Contract {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne(targetEntity = Player.class, fetch = FetchType.LAZY)
     private Player player;

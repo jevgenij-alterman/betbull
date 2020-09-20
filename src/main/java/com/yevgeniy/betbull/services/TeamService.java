@@ -6,7 +6,6 @@ import com.yevgeniy.betbull.dto.DtoMapper;
 import com.yevgeniy.betbull.dto.TeamDTO;
 import com.yevgeniy.betbull.exceptions.TeamNotFoundException;
 import com.yevgeniy.betbull.repository.TeamRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -16,8 +15,11 @@ import java.util.Optional;
 
 @Service
 public class TeamService {
-    @Autowired
-    private TeamRepository teamRepository;
+    private final TeamRepository teamRepository;
+
+    public TeamService(TeamRepository teamRepository) {
+        this.teamRepository = teamRepository;
+    }
 
     public ResponseEntity<List<TeamDTO>> getAllTeams() {
         return new ResponseEntity<>(DtoMapper.toTeamDTOList(teamRepository.findAll()), HttpStatus.OK);
@@ -35,7 +37,7 @@ public class TeamService {
 
     public ResponseEntity<TeamDTO> putUpdateTeam(Long id, TeamDTO team) throws TeamNotFoundException {
         Team teamToUpdate = findTeamIfExists(id);
-        if(team.getTeamName()!=null && !team.getTeamName().isEmpty()) {
+        if (team.getTeamName() != null && !team.getTeamName().isEmpty()) {
             teamToUpdate.setTeamName(team.getTeamName());
         }
         Team updatedTeam = teamRepository.save(teamToUpdate);

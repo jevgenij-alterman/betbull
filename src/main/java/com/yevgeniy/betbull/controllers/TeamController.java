@@ -3,7 +3,6 @@ package com.yevgeniy.betbull.controllers;
 import com.yevgeniy.betbull.dto.TeamDTO;
 import com.yevgeniy.betbull.exceptions.TeamNotFoundException;
 import com.yevgeniy.betbull.services.TeamService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,8 +12,11 @@ import java.util.List;
 @RequestMapping("api/v1/")
 public class TeamController {
 
-    @Autowired
-    private TeamService teamService;
+    private final TeamService teamService;
+
+    public TeamController(TeamService teamService) {
+        this.teamService = teamService;
+    }
 
     @GetMapping(value = "team")
     public ResponseEntity<List<TeamDTO>> getAllTeams() {
